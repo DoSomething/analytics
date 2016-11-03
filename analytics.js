@@ -40,7 +40,7 @@ function init(namespace, bindGlobal) {
     document.body.addEventListener('click', function(event) {
         if (event.target && event.target.getAttribute('data-' + namespace + '-category') !== null) {
             var el = event.target;
-            sendEvent(
+            analyze(
                 el.getAttribute('data-' + namespace + '-category'),
                 el.getAttribute('data-' + namespace + '-action'),
                 el.getAttribute('data-' + namespace + '-label')
