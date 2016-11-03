@@ -1,4 +1,4 @@
-# Analytics
+# Analytics [![NPM](https://img.shields.io/npm/v/@dosomething/analytics.svg)](https://www.npmjs.com/package/@dosomething/analytics)
 **This is a simple helper for triggering analytics events in the browser.** It supports sending events to Google Analytics
 and Optimizely (via their official snippets). It's super tiny (510 bytes gzipped)!
 
