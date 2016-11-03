@@ -1,6 +1,6 @@
 {
   "name": "@dosomething/analytics",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A simple wrapper for Google Analytics and Optimizely.",
   "main": "analytics.js",
   "author": "David Furnes <dfurnes@dosomething.org>",
