@@ -8,12 +8,12 @@
  * @param label
  */
 function analyze(category, action, label) {
-    category = category !== undefined ? category : '';
-    action = action !== undefined ? action : '';
-    label = label !== undefined ? label : '';
+    var stringified = [category, action, label]
+      .filter(function(n) { return n; })
+      .join(':');
 
     if (process.env.NODE_ENV !== 'production') {
-        console.info('Sent an analytics event - ' + category + ':' + action + ':' + label)
+        console.info('Sent an analytics event - ' + stringified)
     }
 
     // Send custom event to Google Analytics
@@ -23,7 +23,7 @@ function analyze(category, action, label) {
 
     // Send the event to Optimizely for tracking conversions.
     window.optimizely = window.optimizely || [];
-    window.optimizely.push(["trackEvent", category + ':' + action + ':' + label]);
+    window.optimizely.push(["trackEvent", stringified]);
 }
 
 /**

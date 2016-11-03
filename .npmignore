@@ -1,6 +1,3 @@
-# Builds
-dist
-
 # Ignore dependencies
 node_modules
 npm-debug.log
