@@ -1,7 +1,7 @@
 var configure = require('@dosomething/webpack-config');
 
 var config = configure({
-  entry: { Analytics: './index.js' },
+  entry: { Analytics: './analytics.js' },
 });
 
 // Attach the pre-built library to `window.Analytics`.
