@@ -9,7 +9,7 @@ You can get your own copy of Analytics using [npm](https://www.npmjs.com/package
 npm install @dosomething/analytics
 ```
 
-Include the bundled `dist/analytics.js` in your page, or require it using a module bundler.
+Include the bundled `dist/Analytics.js` in your page, or require it using a module bundler.
 
 ### Usage
 You can manually send an event with `Analytics.analyze('category', 'action', 'label')`.
