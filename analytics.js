@@ -27,7 +27,7 @@ function analyze(identifier, data) {
 
   // Send the event to Optimizely for tracking conversions.
   if (window.optimizely) {
-    window.optimizely.push(["trackEvent", stringified]);
+    window.optimizely.push(["trackEvent", identifier]);
   }
 
   // Send the data to keen.io
