@@ -1,5 +1,7 @@
 'use strict';
 
+var keenClient = null;
+
 /**
  * Send a custom analytics event to Google & Optimizely.
  *
@@ -7,47 +9,56 @@
  * @param action
  * @param label
  */
-function analyze(category, action, label) {
-    var stringified = [category, action, label]
-      .filter(function(n) { return n; })
-      .join(':');
+function analyze(identifier, data) {
+  var identifiers = identifier.split(':');
 
-    if (process.env.NODE_ENV !== 'production') {
-        console.info('Sent an analytics event - ' + stringified)
-    }
+  var category = identifiers[0];
 
-    // Send custom event to Google Analytics
-    if (typeof window.ga !== 'undefined' && window.ga !== null) {
-        ga('send', 'event', category, action, label);
-    }
+  if (process.env.NODE_ENV !== 'production') {
+    console.info('Sent an analytics event - ' + identifier);
+  }
 
-    // Send the event to Optimizely for tracking conversions.
-    window.optimizely = window.optimizely || [];
-    window.optimizely.push(["trackEvent", stringified]);
+  // Send custom event to Google Analytics
+  if (typeof window.ga !== 'undefined' && window.ga !== null) {
+    ga('send', 'event', category, identifiers[1], identifiers[2]);
+  }
+
+  // Send the event to Optimizely for tracking conversions.
+  if (window.optimizely) {
+    window.optimizely.push(["trackEvent", identifier]);
+  }
+
+  // Send the data to keen.io
+  if (data && keenClient) {
+    keenClient.addEvent(category, data);
+  }
 }
 
 /**
  * Register our custom event handlers as delegated events on the body.
  */
-function init(namespace, bindGlobal) {
-    namespace = namespace !== undefined ? namespace : 'track';
-    bindGlobal = bindGlobal !== undefined ? bindGlobal : true;
+function init(namespace, bindGlobal, keenAuth) {
+  namespace = namespace || 'track';
+  bindGlobal = bindGlobal || true;
 
-    if (bindGlobal) {
-        window.analyze = analyze;
+  if (bindGlobal) {
+    window.analyze = analyze;
+  }
+
+  if (keenAuth) {
+    keenClient = new Keen(keenAuth);
+  }
+
+  document.body.addEventListener('click', function(event) {
+    if (event.target && event.target.getAttribute('data-' + namespace + '-category') !== null) {
+      var el = event.target;
+      analyze(
+        el.getAttribute('data-' + namespace + '-category'),
+        el.getAttribute('data-' + namespace + '-action'),
+        el.getAttribute('data-' + namespace + '-label')
+      );
     }
-
-    document.body.addEventListener('click', function(event) {
-        if (event.target && event.target.getAttribute('data-' + namespace + '-category') !== null) {
-            var el = event.target;
-            analyze(
-                el.getAttribute('data-' + namespace + '-category'),
-                el.getAttribute('data-' + namespace + '-action'),
-                el.getAttribute('data-' + namespace + '-label')
-            );
-        }
-    })
+  });
 }
 
 module.exports = { init: init, analyze: analyze };
-
