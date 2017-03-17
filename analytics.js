@@ -13,16 +13,14 @@ function analyze(identifier, data) {
   const identifiers = identifier.split(':');
 
   const category = identifiers[0];
-  const action = identifiers[1];
-  const label = identifiers[2];
 
   if (process.env.NODE_ENV !== 'production') {
-    console.info('Sent an analytics event - ' + stringified)
+    console.info('Sent an analytics event - ' + identifier);
   }
 
   // Send custom event to Google Analytics
   if (typeof window.ga !== 'undefined' && window.ga !== null) {
-    ga('send', 'event', category, action, label);
+    ga('send', 'event', category, identifiers[1], identifiers[2]);
   }
 
   // Send the event to Optimizely for tracking conversions.
