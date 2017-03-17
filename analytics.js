@@ -1,6 +1,6 @@
 'use strict';
 
-let keenClient = null;
+var keenClient = null;
 
 /**
  * Send a custom analytics event to Google & Optimizely.
@@ -10,9 +10,9 @@ let keenClient = null;
  * @param label
  */
 function analyze(identifier, data) {
-  const identifiers = identifier.split(':');
+  var identifiers = identifier.split(':');
 
-  const category = identifiers[0];
+  var category = identifiers[0];
 
   if (process.env.NODE_ENV !== 'production') {
     console.info('Sent an analytics event - ' + identifier);
@@ -51,7 +51,7 @@ function init(namespace, bindGlobal, keenAuth) {
 
   document.body.addEventListener('click', function(event) {
     if (event.target && event.target.getAttribute('data-' + namespace + '-category') !== null) {
-      const el = event.target;
+      var el = event.target;
       analyze(
         el.getAttribute('data-' + namespace + '-category'),
         el.getAttribute('data-' + namespace + '-action'),
