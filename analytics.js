@@ -18,7 +18,7 @@ function analyze(identifier, data) {
   if (process.env.NODE_ENV !== 'production') {
       console.groupCollapsed('%c Analytics: %c Triggered event "%s"',
         'background-color: #FFFBCC; display: block; font-weight: bold; line-height: 1.5;',
-        'background-color: transparent; font-weight: bold; line-height: 1.5;',
+        'background-color: transparent; font-weight: normal; line-height: 1.5;',
         identifier
       );
       console.log('Parsed Identifiers:', { category, action: identifiers[1], label: identifiers[2]});
@@ -56,7 +56,7 @@ function pageview(url) {
     if (process.env.NODE_ENV !== 'production') {
         console.log('%c Analytics: %c Visited page "%s"',
           'background-color: #FFFBCC; display: block; font-weight: bold; line-height: 1.5;',
-          'background-color: transparent; font-weight: bold; line-height: 1.5;',
+          'background-color: transparent; font-weight: normal; line-height: 1.5;',
           url
         );
     }
