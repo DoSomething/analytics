@@ -45,6 +45,29 @@ function analyze(identifier, data) {
 }
 
 /**
+ * Send a custom page view event to Google.
+ *
+ * @param category
+ * @param action
+ * @param label
+ */
+function pageview(url) {
+    // Log analytics events to the console for developers.
+    if (process.env.NODE_ENV !== 'production') {
+        console.log('%c Analytics: %c Visited page "%s"',
+          'background-color: #FFFBCC; display: block; font-weight: bold; line-height: 1.5;',
+          'background-color: transparent; font-weight: bold; line-height: 1.5;',
+          url
+        );
+    }
+
+    // Send custom event to Google Analytics
+    if (typeof window.ga !== 'undefined' && window.ga !== null) {
+        ga('send', 'pageview', path);
+    }
+}
+
+/**
  * Register our custom event handlers as delegated events on the body.
  */
 function init(namespace, bindGlobal, keenAuth) {
@@ -71,4 +94,4 @@ function init(namespace, bindGlobal, keenAuth) {
   });
 }
 
-module.exports = { init: init, analyze: analyze };
+module.exports = { init: init, analyze: analyze, pageview: pageview };
