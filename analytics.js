@@ -3,7 +3,7 @@
 var keenClient = null;
 
 /**
- * Send a custom analytics event to Google & Optimizely.
+ * Send a custom analytics event to Google, Optimizely & Keen.io.
  *
  * @param category
  * @param action
@@ -14,8 +14,18 @@ function analyze(identifier, data) {
 
   var category = identifiers[0];
 
+  // Log analytics events to the console for developers.
   if (process.env.NODE_ENV !== 'production') {
-    console.info('Sent an analytics event - ' + identifier);
+      console.groupCollapsed('%c Analytics: %c Triggered event "%s"',
+        'background-color: #FFFBCC; display: block; font-weight: bold; line-height: 1.5;',
+        'background-color: transparent; font-weight: bold; line-height: 1.5;',
+        identifier
+      );
+      console.log('Parsed Identifiers:', { category, action: identifiers[1], label: identifiers[2]});
+      if (data) {
+        console.log('Keen.io Payload:', data);
+      }
+      console.groupEnd();
   }
 
   // Send custom event to Google Analytics
