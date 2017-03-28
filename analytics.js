@@ -21,7 +21,7 @@ function analyze(identifier, data) {
         'background-color: transparent; font-weight: normal; line-height: 1.5;',
         identifier
       );
-      console.log('Parsed Identifiers:', { category, action: identifiers[1], label: identifiers[2]});
+      console.log('Parsed Identifiers:', {category: category, action: identifiers[1], label: identifiers[2]});
       if (data) {
         console.log('Keen.io Payload:', data);
       }
