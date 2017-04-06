@@ -63,7 +63,7 @@ function pageview(url) {
 
     // Send custom event to Google Analytics
     if (typeof window.ga !== 'undefined' && window.ga !== null) {
-        ga('send', 'pageview', path);
+        ga('send', 'pageview', url);
     }
 }
 
