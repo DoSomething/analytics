@@ -3,6 +3,18 @@
 var keenClient = null;
 
 /**
+ * Read a cookie from the browser based on the given cookie name.
+ * @see: https://stackoverflow.com/a/44582793/2129670
+ *
+ * @param name
+ * @return cookie
+ */
+function getCookie(name) {
+  const match = document.cookie.match(new RegExp(name + '=([^;]+)'));
+  return match ? match[1] : '';
+}
+
+/**
  * Send a custom analytics event to Google, Optimizely & Keen.io.
  *
  * @param category
@@ -68,6 +80,21 @@ function pageview(url) {
 }
 
 /**
+ * Set a custom dimension for future page views and events
+ * @param name
+ * @param cookieId
+ */
+function dimension(name, cookieId) {
+  console.log('%c Analytics: %c Set dimension "%s"',
+    'background-color: #FFFBCC; display: block; font-weight: bold; line-height: 1.5;',
+    'background-color: transparent; font-weight: normal; line-height: 1.5;',
+    name
+  );
+
+  ga('set', name, getCookie(cookieId));
+}
+
+/**
  * Register our custom event handlers as delegated events on the body.
  */
 function init(namespace, bindGlobal, keenAuth) {
@@ -94,4 +121,4 @@ function init(namespace, bindGlobal, keenAuth) {
   });
 }
 
-module.exports = { init: init, analyze: analyze, pageview: pageview };
+module.exports = { init: init, analyze: analyze, pageview: pageview, dimension: dimension };
