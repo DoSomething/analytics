@@ -84,14 +84,18 @@ function pageview(url) {
  * @param name
  * @param cookieId
  */
-function dimension(name, cookieId) {
-  console.log('%c Analytics: %c Set dimension "%s"',
-    'background-color: #FFFBCC; display: block; font-weight: bold; line-height: 1.5;',
-    'background-color: transparent; font-weight: normal; line-height: 1.5;',
-    name
-  );
+function dimensionByCookie(name, cookieId) {
+  const cookie = getCookie(cookieId);
 
-  ga('set', name, getCookie(cookieId));
+  if (cookie) {
+    console.log('%c Analytics: %c Set dimension "%s"',
+      'background-color: #FFFBCC; display: block; font-weight: bold; line-height: 1.5;',
+      'background-color: transparent; font-weight: normal; line-height: 1.5;',
+      name
+    );
+
+    ga('set', name, cookie);
+  }
 }
 
 /**
@@ -121,4 +125,4 @@ function init(namespace, bindGlobal, keenAuth) {
   });
 }
 
-module.exports = { init: init, analyze: analyze, pageview: pageview, dimension: dimension };
+module.exports = { init: init, analyze: analyze, pageview: pageview, dimensionByCookie: dimensionByCookie };
