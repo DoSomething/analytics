@@ -3,6 +3,27 @@
 var keenClient = null;
 
 /**
+ * Read a cookie from the browser based on the given cookie name.
+ * @see: https://stackoverflow.com/a/44582793/2129670
+ *
+ * @param name
+ * @return cookie
+ */
+function getCookie(name) {
+  const match = document.cookie.match(new RegExp(name + '=([^;]+)'));
+  return match ? match[1] : '';
+}
+
+/**
+ * Check if Google Analytics is safe for use.
+ *
+ * @return Boolean
+ */
+function isGoogleAnalyticsSafe() {
+  return typeof window.ga !== 'undefined' && window.ga !== null;
+}
+
+/**
  * Send a custom analytics event to Google, Optimizely & Keen.io.
  *
  * @param category
@@ -29,7 +50,7 @@ function analyze(identifier, data) {
   }
 
   // Send custom event to Google Analytics
-  if (typeof window.ga !== 'undefined' && window.ga !== null) {
+  if (isGoogleAnalyticsSafe()) {
     ga('send', 'event', category, identifiers[1], identifiers[2]);
   }
 
@@ -62,9 +83,38 @@ function pageview(url) {
     }
 
     // Send custom event to Google Analytics
-    if (typeof window.ga !== 'undefined' && window.ga !== null) {
+    if (isGoogleAnalyticsSafe()) {
         ga('send', 'pageview', url);
     }
+}
+
+/**
+ * Set a custom dimension for future page views and events
+ * @param name
+ * @param cookieId
+ */
+function dimension(name, value) {
+  if (value) {
+    console.log('%c Analytics: %c Set dimension "%s"',
+      'background-color: #FFFBCC; display: block; font-weight: bold; line-height: 1.5;',
+      'background-color: transparent; font-weight: normal; line-height: 1.5;',
+      name
+    );
+
+    if (isGoogleAnalyticsSafe()) {
+      ga('set', name, value);
+    }
+  }
+}
+
+/**
+ * Set a custom dimension for future page views and events based on a users cookie
+ *
+ * @param name
+ * @param cookieId
+ */
+function dimensionByCookie(cookieId) {
+  dimension(cookieId, getCookie(cookieId))
 }
 
 /**
@@ -94,4 +144,7 @@ function init(namespace, bindGlobal, keenAuth) {
   });
 }
 
-module.exports = { init: init, analyze: analyze, pageview: pageview };
+module.exports = {
+  init: init, analyze: analyze, pageview: pageview,
+  dimension: dimension, dimensionByCookie: dimensionByCookie,
+};
