@@ -84,18 +84,26 @@ function pageview(url) {
  * @param name
  * @param cookieId
  */
-function dimensionByCookie(name, cookieId) {
-  const cookie = getCookie(cookieId);
-
-  if (cookie) {
+function dimension(name, value) {
+  if (value) {
     console.log('%c Analytics: %c Set dimension "%s"',
       'background-color: #FFFBCC; display: block; font-weight: bold; line-height: 1.5;',
       'background-color: transparent; font-weight: normal; line-height: 1.5;',
       name
     );
 
-    ga('set', name, cookie);
+    ga('set', name, value);
   }
+}
+
+/**
+ * Set a custom dimension for future page views and events based on a users cookie
+ *
+ * @param name
+ * @param cookieId
+ */
+function dimensionByCookie(cookieId) {
+  dimension(cookieId, getCookie(cookieId))
 }
 
 /**
@@ -125,4 +133,7 @@ function init(namespace, bindGlobal, keenAuth) {
   });
 }
 
-module.exports = { init: init, analyze: analyze, pageview: pageview, dimensionByCookie: dimensionByCookie };
+module.exports = {
+  init: init, analyze: analyze, pageview: pageview,
+  dimension: dimension, dimensionByCookie: dimensionByCookie, 
+};
