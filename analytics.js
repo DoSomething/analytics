@@ -15,6 +15,15 @@ function getCookie(name) {
 }
 
 /**
+ * Check if Google Analytics is safe for use.
+ *
+ * @return Boolean
+ */
+function isGoogleAnalyticsSafe() {
+  return typeof window.ga !== 'undefined' && window.ga !== null;
+}
+
+/**
  * Send a custom analytics event to Google, Optimizely & Keen.io.
  *
  * @param category
@@ -41,7 +50,7 @@ function analyze(identifier, data) {
   }
 
   // Send custom event to Google Analytics
-  if (typeof window.ga !== 'undefined' && window.ga !== null) {
+  if (isGoogleAnalyticsSafe()) {
     ga('send', 'event', category, identifiers[1], identifiers[2]);
   }
 
@@ -74,7 +83,7 @@ function pageview(url) {
     }
 
     // Send custom event to Google Analytics
-    if (typeof window.ga !== 'undefined' && window.ga !== null) {
+    if (isGoogleAnalyticsSafe()) {
         ga('send', 'pageview', url);
     }
 }
@@ -92,7 +101,9 @@ function dimension(name, value) {
       name
     );
 
-    ga('set', name, value);
+    if (isGoogleAnalyticsSafe()) {
+      ga('set', name, value);
+    }
   }
 }
 
@@ -135,5 +146,5 @@ function init(namespace, bindGlobal, keenAuth) {
 
 module.exports = {
   init: init, analyze: analyze, pageview: pageview,
-  dimension: dimension, dimensionByCookie: dimensionByCookie, 
+  dimension: dimension, dimensionByCookie: dimensionByCookie,
 };
