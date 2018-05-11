@@ -10,7 +10,7 @@ var keenClient = null;
  * @return cookie
  */
 function getCookie(name) {
-  const match = document.cookie.match(new RegExp(name + '=([^;]+)'));
+  var match = document.cookie.match(new RegExp(name + '=([^;]+)'));
   return match ? match[1] : '';
 }
 
