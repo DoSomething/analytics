@@ -12,7 +12,7 @@ npm install @dosomething/analytics
 Include the bundled `dist/Analytics.js` in your page, or require it using a module bundler.
 
 ### Usage
-You can manually send an event with `Analytics.analyze('category', 'action', 'label')`.
+You can manually send an event with `Analytics.analyze('category:action:label')` (the event is expected as a colon separated string consisting of the category, action, and label.)
 
 You can also trigger events by setting data attributes on clickable items, or by using the global `analyze()` helper method in an inline script anytime after running `Analytics.init()`:
 
